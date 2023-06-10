@@ -3,7 +3,7 @@ import { View, TextInput, StyleSheet, Text } from 'react-native';
 import { AuthContext } from '../context/AuthContext';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from '@rneui/base';
-import { Input } from '@rneui/themed';
+import { Input, Dialog } from '@rneui/themed';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
@@ -11,6 +11,10 @@ export default function LoginScreen() {
   const [error, setError] = useState('');
   const { signIn, signUp, user } = useContext(AuthContext);
   const navigation = useNavigation();
+  const [visible1, setVisible1] = useState(false);
+  const toggleDialog1 = () => {
+    setVisible1(!visible1);
+  };
 
   useEffect(() => {
     // Check if the user is already signed in
@@ -20,28 +24,39 @@ export default function LoginScreen() {
   }, [user, navigation]);
 
   const handleSignIn = () => {
-    signIn(email.trim(), password.trim())
-      .then(() => {
-        navigation.navigate('Home');
-      })
+    // signIn(email.trim(), password.trim())
+    signIn('abenuro@gmail.com', 'abenuro@gmail.com')
       .catch((error) => {
         setError(error.message);
       });
   };
 
   const handleSignUp = () => {
-    signUp(email.trim(), password.trim())
-      .then(() => {
-        navigation.navigate('Home');
-      })
+    signUp(email.trim(), password.trim()).then(() => {
+      console.log('signUp resolved without errors');
+
+      
+    })
       .catch((error) => {
         setError(error.message);
+        console.log(error.message);
+        toggleDialog1();
       });
   };
+
+
 
   return (
     <View style={styles.container}>
       <View style={styles.content}>
+      <Dialog
+      isVisible={visible1}
+      onBackdropPress={toggleDialog1}
+    >
+      <Dialog.Title title="Dialog Title"/>
+      <Text>{error}</Text>
+    </Dialog>
+   
         <Input
           placeholder="Email"
           leftIcon={{ type: 'font-awesome', name: 'at' }}
