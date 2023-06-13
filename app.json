@@ -2,7 +2,7 @@
   "expo": {
     "name": "AddisList",
     "slug": "AddisList",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -11,11 +11,17 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "scheme": "myapp",
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "EthioList.io"
     },
     "android": {
       "adaptiveIcon": {
@@ -25,6 +31,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f786b2cf-0f96-468d-8e98-e2e6b9435497"
+      }
     }
   }
 }

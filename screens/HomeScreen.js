@@ -1,30 +1,48 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import {
   StyleSheet,
-  Button,
   View,
-  Text,
   Linking,
-  StyleProp,
-  TextStyle,
-  ViewStyle,
-  } from 'react-native';
+  FlatList,
+  ScrollView,
+  Image,
+} from "react-native";
 import { AuthContext } from "../context/AuthContext";
 import { getAuth } from "firebase/auth";
 import { app } from "../services/firebase";
-import { Header as HeaderRNE, HeaderProps, Icon } from "@rneui/themed";
-import { TouchableOpacity } from 'react-native-gesture-handler';
-
+import { Header as HeaderRNE, Icon, Text, Card, Button } from "@rneui/themed";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { SearchBar } from "react-native-elements";
+import { AdsContext } from "../context/AdsContext";
+import { useNavigation } from "@react-navigation/native";
 export default function HomeScreen() {
-  const docsNavigate = () => {
-    Linking.openURL(`https://reactnativeelements.com/docs/${props.view}`);
-  };
-  
-  const playgroundNavigate = () => {
-    Linking.openURL(`https://@rneui/themed.js.org/#/${props.view}`);
-  };
+  const { ads, loading, searchAds } = useContext(AdsContext);
   const { user, setUser } = useContext(AuthContext);
   const auth = getAuth(app);
+  const [searchText, setSearchText] = useState("");
+  const navigation = useNavigation();
+
+  const handleSearch = () => {
+    searchAds(searchText);
+  };
+
+  const handleNavigateToSettings = () => {
+    navigation.navigate("Settings");
+  };
+
+  const handleNavigateToUser = () => {
+    navigation.navigate("User");
+  };
+  const handleNavigateToAdDetails = (ad) => {
+    navigation.navigate("AdDetails", { ad });
+  };
+  if (loading) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <>
@@ -35,59 +53,94 @@ export default function HomeScreen() {
         }}
         rightComponent={
           <View style={styles.headerRight}>
-            <TouchableOpacity onPress={docsNavigate}>
-              <Icon name="description" color="white" />
+            <TouchableOpacity onPress={handleNavigateToSettings}>
+              <Icon type="antdesign" name="setting" color="white" />
             </TouchableOpacity>
+
             <TouchableOpacity
               style={{ marginLeft: 10 }}
-              onPress={playgroundNavigate}
+              onPress={handleNavigateToUser}
             >
-              <Icon type="antdesign" name="rocket1" color="white" />
+              <Icon type="antdesign" name="user" color="white" />
             </TouchableOpacity>
           </View>
         }
-        centerComponent={{ text: "Header", style: styles.heading }}
+        centerComponent={{ text: "EthioList", style: styles.heading }}
       />
-      <Text>Home Screen</Text>
-      {user && <Text>Email: {user.email}</Text>}
-      <Button
-        title="Sign out"
-        onPress={async () => {
-          try {
-            await auth.signOut();
-            setUser(null);
-          } catch (error) {
-            console.error(error);
-          }
-        }}
+
+      <SearchBar
+        placeholder="Search Ads..."
+        onChangeText={setSearchText}
+        value={searchText}
+        onSubmitEditing={handleSearch}
       />
+
+      {ads.length === 0 ? (
+        <Text>No ads available</Text>
+      ) : (
+        <FlatList
+          data={ads}
+          keyExtractor={(item) => item.objectID}
+          renderItem={({ item }) => (
+            <View>
+              <Card>
+                <Card.Title>{item.title}</Card.Title>
+                <Card.Divider />
+                <Card.Image
+                  style={{ padding: 0 }}
+                  source={{
+                    uri: item.imageUrls,
+                  }}
+                />
+                <Text style={{ marginBottom: 10 }}>{item.description}</Text>
+                <Button
+                  icon={
+                    <Icon
+                      name="code"
+                      color="#ffffff"
+                      iconStyle={{ marginRight: 10 }}
+                    />
+                  }
+                  onPress={() => handleNavigateToAdDetails(item)}
+                  buttonStyle={{
+                    borderRadius: 0,
+                    marginLeft: 0,
+                    marginRight: 0,
+                    marginBottom: 0,
+                  }}
+                  title="VIEW NOW"
+                />
+              </Card>
+            </View>
+          )}
+        />
+      )}
     </>
   );
 }
 
 const styles = StyleSheet.create({
   headerContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#397af8',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#397af8",
     marginBottom: 20,
-    width: '100%',
+    width: "100%",
     paddingVertical: 15,
   },
   heading: {
-    color: 'white',
+    color: "white",
     fontSize: 22,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   headerRight: {
-    display: 'flex',
-    flexDirection: 'row',
+    display: "flex",
+    flexDirection: "row",
     marginTop: 5,
   },
   subheaderText: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
-  });
-  
+});
