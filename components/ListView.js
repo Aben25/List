@@ -2,8 +2,10 @@ import React, { useContext } from 'react';
 import { View, Text, StyleSheet, FlatList, Image , TouchableOpacity} from 'react-native';
 import { ListContext } from '../context/ListContext';
 import { ThemeContext } from '../context/ThemeContext';
+import { useNavigation } from '@react-navigation/native';
 
 const ListView = ({ items }) => {
+  const navigation = useNavigation();
   const { theme } = useContext(ThemeContext);
 
   const renderItem = ({ item }) => (
@@ -12,7 +14,11 @@ const ListView = ({ items }) => {
       <View style={styles.listItemContent}>
         <Text style={[styles.listItemTitle, { color: theme.colors.primary }]}>{item.title}</Text>
         <Text style={styles.listItemDescription}>{item.category}</Text>
-        <TouchableOpacity style={styles.listItemButton}>
+        <TouchableOpacity style={styles.listItemButton}
+        onPress={() => {
+          navigation.navigate('SingleList', { item: item });
+        }}
+        >
             <Text style={styles.listItemButtonText}>View Details</Text>
         </TouchableOpacity>
 

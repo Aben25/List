@@ -7,10 +7,7 @@ const Header = ({ toggleView }) => {
 
   return (
     <View style={styles.header}>
-      <Text style={[styles.title, { color: theme.colors.primary }]}>Welcome to My Marketplace</Text>
-      <TouchableOpacity style={styles.toggleButton} onPress={toggleView}>
-        <Text style={styles.toggleButtonText}>Toggle View</Text>
-      </TouchableOpacity>
+      <Text style={[styles.title, { color: theme.colors.primary }]}>Welcome to EthioFind</Text>
     </View>
   );
 };

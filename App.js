@@ -15,7 +15,7 @@ import { Switch } from "@rneui/themed";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import SignupScreen from "./screens/Signup";
 import { ListContext,ListProvider  } from "./context/ListContext";
-
+import SingleListScreen from "./screens/SingleListScreen";
 
 
 const Stack = createStackNavigator();
@@ -48,6 +48,8 @@ function App() {
             </>
           ) : (
             <>
+            <Stack.Screen name="SingleList" component={SingleListScreen} />
+            
              <Stack.Screen name="Home" component={HomeScreen}
               options={{ headerShown: false }}
               />
