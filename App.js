@@ -14,7 +14,12 @@ import { ThemeContext, ThemeProvider } from "./context/ThemeContext";
 import { Switch } from "@rneui/themed";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import SignupScreen from "./screens/Signup";
+import { ListContext,ListProvider  } from "./context/ListContext";
+
+
+
 const Stack = createStackNavigator();
+
 
 function App() {
   const { user } = useContext(AuthContext);
@@ -36,13 +41,16 @@ function App() {
         <Stack.Navigator initialRouteName="Welcome">
           {user ? (
             <>
-              <Stack.Screen name="Home" component={HomeScreen} />
+             
               <Stack.Screen name="User" component={UserScreen} />
               <Stack.Screen name="Settings" component={SettingsScreen} />
               <Stack.Screen name="AdDetails" component={AdDetailsScreen} />
             </>
           ) : (
             <>
+             <Stack.Screen name="Home" component={HomeScreen}
+              options={{ headerShown: false }}
+              />
             <Stack.Screen
               name="Login"
               component={LoginScreen}
@@ -75,6 +83,7 @@ const styles = StyleSheet.create({
 
 function AppWrapper() {
   return (
+    <ListProvider>
     <AuthProvider>
       <AdsProvider>
         <ThemeProvider>
@@ -82,6 +91,7 @@ function AppWrapper() {
         </ThemeProvider>
       </AdsProvider>
     </AuthProvider>
+    </ListProvider>
   );
 }
 

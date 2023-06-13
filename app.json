@@ -2,7 +2,8 @@
   "expo": {
     "name": "AddisList",
     "slug": "AddisList",
-    "version": "1.0.2",
+    "scheme": "etthiofind",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -11,10 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "scheme": "myapp",
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
+
     
     "assetBundlePatterns": [
       "**/*"

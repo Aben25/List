@@ -1,13 +1,19 @@
-import React, { useContext } from "react";
+import React, { createContext, useState,useEffect ,useContext } from "react";
 import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import { ThemeContext } from "../context/ThemeContext";
 import { Button, Icon } from "@rneui/base";
 import * as Google from "expo-auth-session/providers/google";
 import { AuthContext } from "../context/AuthContext";
+import * as WebBrowser from "expo-web-browser";
+
+
+WebBrowser.maybeCompleteAuthSession();
 
 export default function WelcomeScreen({ navigation }) {
   const { theme } = useContext(ThemeContext);
   const { setUser } = useContext(AuthContext);
+  const [token, setToken] = useState("");
+  const [userInfo, setUserInfo] = useState(null);
   const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -74,20 +80,29 @@ export default function WelcomeScreen({ navigation }) {
       "664096704221-dnvki4bbpf9pq5pefckgdb0crrssn3ed.apps.googleusercontent.com",
   });
 
-  const signInWithGoogle = async () => {
+  useEffect(() => {
+    if (response?.type === "success") {
+      setToken(response.authentication.accessToken);
+      getUserInfo();
+    }
+  }, [response, token]);
+
+  const getUserInfo = async () => {
     try {
-      const { authentication } = await promptAsync();
-      // Handle authentication and sign-in here
-      const credential = GoogleAuthProvider.credentialFromResult(authentication);
-      if (credential) {
-        const { user: firebaseUser } = await signInWithCredential(auth, credential);
-        await AsyncStorage.setItem("@user", JSON.stringify(firebaseUser));
-        setUser(firebaseUser);
-      }
+      const response = await fetch(
+        "https://www.googleapis.com/userinfo/v2/me",
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      const user = await response.json();
+      setUser(user);
     } catch (error) {
-      console.error(error);
+      // Add your own error handler here
     }
   };
+
 
   return (
     <View style={styles.container}>
@@ -97,7 +112,10 @@ export default function WelcomeScreen({ navigation }) {
       <Image style={styles.logo} source={require('../assets/icon.png')} />
       <Text style={styles.description}>Welcome to our amazing app!</Text>
     
-      <TouchableOpacity  onPress={signInWithGoogle}>
+      <TouchableOpacity   disabled={!request}
+          onPress={() => {
+            promptAsync();
+          }}>
       <Text style={styles.google}>
       <Icon name="google" type="font-awesome" />
         Sign in with Google
