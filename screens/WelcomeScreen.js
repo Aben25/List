@@ -123,7 +123,6 @@ export default function WelcomeScreen({ navigation }) {
       </TouchableOpacity>
     
       <View style={styles.bottomContainer}>
-        <Text>Or continue with</Text>
         <TouchableOpacity onPress={() => navigation.navigate('Login')}>
           <Text>Email</Text>
         </TouchableOpacity>

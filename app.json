@@ -3,7 +3,7 @@
     "name": "AddisList",
     "slug": "AddisList",
     "scheme": "etthiofind",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -12,14 +12,13 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-
-    
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "EthioList.io"
+      "bundleIdentifier": "EthioList.io",
+      "buildNumber": "1.0.4"
     },
     "android": {
       "adaptiveIcon": {
@@ -34,6 +33,12 @@
       "eas": {
         "projectId": "f786b2cf-0f96-468d-8e98-e2e6b9435497"
       }
+    },
+    "runtimeVersion": {
+      "policy": "sdkVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/f786b2cf-0f96-468d-8e98-e2e6b9435497"
     }
   }
 }
