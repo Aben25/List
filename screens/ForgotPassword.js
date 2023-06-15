@@ -1,45 +1,30 @@
 import React, { useContext, useState } from "react";
 import { View, StyleSheet, Text , TouchableOpacity} from "react-native";
-import { Button, Input, Icon } from "@rneui/base";
+import { Button, Input, Icon, Dialog } from "@rneui/base";
+
 import { ThemeContext } from "../context/ThemeContext";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../context/AuthContext";
 
 
-export default function LoginScreen() {
+export default function ForgotPasswordScreen() {
 
   const { theme } = useContext(ThemeContext);
-  const { signIn } = useContext(AuthContext);
+  const { forgotPassword } = useContext(AuthContext);
   const navigation = useNavigation();
 
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
-  const [password, setPassword] = useState("");
+  const [dialogVisible, setDialogVisible] = useState(false);
 
-  // validate the email and password and update the error state
-  const validateForm = () => {
-    if (!email.includes("@")) {
-      setError("Invalid email");
-      return false;
+  const handleResetPassword = async () => {
+    try {
+      await forgotPassword(email);
+      setDialogVisible(true);
+    } catch (error) {
+      setError(error.message);
     }
   };
-  // Handle user login here
-  const handleLogin = async () => {
-   if (!validateForm()) {
-    signIn(email, password);
-    return;
-  }
-  try {
-    await signIn(email, password);
-  }
-  catch (error) {
-    setError(error.message);
-
-  };
-  };
-
-
-
 
   const styles = StyleSheet.create({
     container: {
@@ -49,10 +34,9 @@ export default function LoginScreen() {
       paddingHorizontal: 20,
     },
     title: {
-      marginBottom: 0,
-      fontSize: 60,
-      fontWeight: "bold",
-
+      marginBottom: 20,
+      textAlign: "center",
+      fontSize: 20,
     },
     input: {
       height: 40,
@@ -67,17 +51,7 @@ export default function LoginScreen() {
       top: 30,
       left: 20,
     },
-
-    title: {
-      marginBottom: 20,
-    textAlign: "center",
-    fontSize: 20,
-    },
   });
-
-  const login = () => {
-    // Handle user login here
-  };
 
   return (
     <View style={styles.container}>
@@ -91,7 +65,7 @@ export default function LoginScreen() {
             />
       </TouchableOpacity>
 
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>Reset Password</Text>
       <Input
         style={styles.input}
         onChangeText={setEmail}
@@ -100,27 +74,22 @@ export default function LoginScreen() {
         keyboardType="email-address"
         autoCapitalize="none"
       />
-      <Input
-        style={styles.input}
-        onChangeText={setPassword}
-        value={password}
-        placeholder="Password"
-        secureTextEntry={true}
-      />
       <Text style={{ color: "red" }}>{error}</Text>
-      <Button title="Login" onPress={handleLogin} 
+      <Button title="Reset Password" onPress={handleResetPassword}
       raised={true}
       buttonStyle={{backgroundColor: theme.colors.primary}}
       />
-      <Text></Text>
-        <Button title="New User? Sign up" onPress={() => navigation.navigate("Signup")}
-      buttonStyle={{marginBottom: 10}}
-      type="outline"
 
-      />
-      <TouchableOpacity onPress={() => navigation.navigate("ForgotPassword")}>
-        <Text style={styles.forgot}>Forgot Password</Text>
-      </TouchableOpacity>
+      <Dialog style={{backgroundColor: theme.colors.background }}
+        isVisible={dialogVisible}
+        onBackdropPress={() => setDialogVisible(false)}
+      >
+        <Dialog.Title title="Password Reset"/>
+        <Text style={{ color:theme.colors.background }}>An email has been sent to reset your password.</Text>
+        <Dialog.Actions>
+          <Dialog.Button title="OK" onPress={() => { setDialogVisible(false), navigation.navigate("Login")}}/>
+        </Dialog.Actions>
+      </Dialog>
     </View>
   );
 }

@@ -6,6 +6,10 @@ import {
   signOut as firebaseSignOut, // Rename the imported function to avoid conflict with other names
   GoogleAuthProvider,
   signInWithCredential,
+  sendPasswordResetEmail,
+  updatePassword,
+  updateEmail,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { collection, addDoc, setDoc } from "firebase/firestore"; 
 
@@ -90,7 +94,15 @@ export const AuthProvider = ({ children }) => {
     }
   };
   
-  
+  //forgot password
+  const forgotPassword = async (email) => {
+    try {
+      await sendPasswordResetEmail(auth, email);
+    } catch (error) {
+      throw new Error(getErrorMessage(error.code));
+    }
+  };
+
   
 
   const signOut = async () => {
@@ -103,8 +115,10 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  
+
   return (
-    <AuthContext.Provider value={{ user, setUser, signIn, signUp, signOut, signInWithGoogle }}>
+    <AuthContext.Provider value={{ user, setUser, signIn, signUp, signOut, signInWithGoogle, forgotPassword }}>
       {children}
     </AuthContext.Provider>
   );

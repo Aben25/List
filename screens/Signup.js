@@ -138,9 +138,8 @@ export default function SignupScreen() {
 
         <Text style={styles.error}>{error}</Text>
 
-      <Button style={styles.button} onPress={handleSignUp}>
-        Sign up
-      </Button>
+      <Button  onPress={handleSignUp} title={"Sign Up"} raised={true} buttonStyle={{backgroundColor: theme.colors.primary}}/>
+      <Text></Text>
       
 
       <TouchableOpacity onPress={() => navigation.navigate("Login")}>

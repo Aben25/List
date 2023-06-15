@@ -9,6 +9,8 @@ const lightTheme = {
           secondary: '#7f8c8d',
           textOnPrimary: '#ffffff',
           textOnSecondary: '#000000',
+          black: '#000000',
+          white: '#ffffff',
         },
         fonts: {
           regular: 'Arial, sans-serif',

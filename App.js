@@ -6,7 +6,7 @@ import LoginScreen from "./screens/LoginScreen";
 import HomeScreen from "./screens/HomeScreen";
 import { Button, createTheme } from "@rneui/themed";
 import { SafeAreaView, StyleSheet } from "react-native";
-import { AdsProvider } from "./context/AdsContext";
+import { AdsProvider } from "./context/SearchContext";
 import UserScreen from "./screens/UserScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import AdDetailsScreen from "./screens/AdDetailsScreen";
@@ -14,21 +14,20 @@ import { ThemeContext, ThemeProvider } from "./context/ThemeContext";
 import { Switch } from "@rneui/themed";
 import WelcomeScreen from "./screens/WelcomeScreen";
 import SignupScreen from "./screens/Signup";
-import { ListContext,ListProvider  } from "./context/ListContext";
+import { ListContext, ListProvider } from "./context/ListContext";
 import SingleListScreen from "./screens/SingleListScreen";
+import ForgotPasswordScreen from "./screens/ForgotPassword";
+import SearchScreen from "./screens/SearchScreen";
 
 
 const Stack = createStackNavigator();
-
 
 function App() {
   const { user } = useContext(AuthContext);
   const { theme, toggleTheme } = useContext(ThemeContext);
   const [checked, setChecked] = useState(false);
 
-
   //
-
 
   return (
     <SafeAreaView style={styles.container}>
@@ -41,33 +40,50 @@ function App() {
         <Stack.Navigator initialRouteName="Welcome">
           {user ? (
             <>
-             
+              <Stack.Screen
+                name="Home"
+                component={HomeScreen}
+                options={{ headerShown: false }}
+              />
               <Stack.Screen name="User" component={UserScreen} />
               <Stack.Screen name="Settings" component={SettingsScreen} />
               <Stack.Screen name="AdDetails" component={AdDetailsScreen} />
+              <Stack.Screen name="SingleList" component={SingleListScreen} />
+
             </>
           ) : (
             <>
-            <Stack.Screen name="SingleList" component={SingleListScreen} />
-            
-             <Stack.Screen name="Home" component={HomeScreen}
-              options={{ headerShown: false }}
+              <Stack.Screen name="SingleList" component={SingleListScreen} />
+
+              <Stack.Screen
+                name="Home"
+                component={HomeScreen}
+                options={{ headerShown: false }}
               />
-            <Stack.Screen
-              name="Login"
-              component={LoginScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Welcome"
-              component={WelcomeScreen}
-              options={{ headerShown: false }}
-            />
-            <Stack.Screen
-              name="Signup"
-              component={SignupScreen}
-              options={{ headerShown: false }}
-            />
+              <Stack.Screen
+                name="Login"
+                component={LoginScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Welcome"
+                component={WelcomeScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="Signup"
+                component={SignupScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen
+                name="ForgotPassword"
+                component={ForgotPasswordScreen}
+                options={{ headerShown: false }}
+              />
+              <Stack.Screen name="Search" component={SearchScreen}
+              options={{ headerShown: false }} />
+              
+
             </>
           )}
         </Stack.Navigator>
@@ -86,13 +102,13 @@ const styles = StyleSheet.create({
 function AppWrapper() {
   return (
     <ListProvider>
-    <AuthProvider>
-      <AdsProvider>
-        <ThemeProvider>
-          <App />
-        </ThemeProvider>
-      </AdsProvider>
-    </AuthProvider>
+      <AuthProvider>
+        <AdsProvider>
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
+        </AdsProvider>
+      </AuthProvider>
     </ListProvider>
   );
 }

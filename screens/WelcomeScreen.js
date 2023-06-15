@@ -1,11 +1,10 @@
-import React, { createContext, useState,useEffect ,useContext } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import { View, StyleSheet, Text, Image, TouchableOpacity } from "react-native";
 import { ThemeContext } from "../context/ThemeContext";
-import { Button, Icon } from "@rneui/base";
+import { Button, Icon, ButtonGroup } from "@rneui/base";
 import * as Google from "expo-auth-session/providers/google";
 import { AuthContext } from "../context/AuthContext";
 import * as WebBrowser from "expo-web-browser";
-
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -24,10 +23,16 @@ export default function WelcomeScreen({ navigation }) {
     logo: {
       width: 200,
       height: 200,
+      marginBottom: 20,
+      borderRadius: 100,
+      borderWidth: 2,
+      borderColor: theme.colors.secondary,
     },
     description: {
       textAlign: "center",
       marginHorizontal: 20,
+      fontSize: 20,
+      fontWeight: "bold",
     },
     button: {
       backgroundColor: theme.colors.secondary,
@@ -48,28 +53,47 @@ export default function WelcomeScreen({ navigation }) {
     bottomContainer: {
       position: "absolute",
       bottom: 20,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      width: '100%',
+      flexDirection: "row",
+      justifyContent: "space-between",
+      width: "70%",
       paddingHorizontal: 20,
     },
     google: {
-      backgroundColor: theme.colors.secondary,
+      backgroundColor: theme.colors.black,
+      color: theme.colors.secondary,
       borderColor: "transparent",
       borderWidth: 0,
       borderRadius: 5,
       width: 150,
       height: 45,
       marginHorizontal: 10,
-      marginVertical: 10,
+      marginVertical: 11,
       color: theme.colors.textOnPrimary,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      paddingHorizontal: 20,
-      alignItems: 'center',
-      paddingVertical: 10,
+      flexDirection: "row",
+      justifyContent: "center", // This will center the items horizontally
+      alignItems: "center", // This will center the items vertically
+      paddingVertical: 0,
       marginLeft: 20,
+    },
+    btntex: {
+      color: theme.colors.white,
+      fontSize: 11,
+    },
+    ButtonGroup: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      width: "100%",
 
+      paddingHorizontal: 20,
+
+      marginHorizontal: 10,
+      marginVertical: 10,
+    },
+    continue: {
+      position: "absolute",
+      bottom: 60,
+      fontSize: 10,
+    
     },
   });
 
@@ -104,29 +128,53 @@ export default function WelcomeScreen({ navigation }) {
   };
 
 
+
+  
+
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.skipLink} onPress={() => navigation.navigate('Home')}>
+      <TouchableOpacity
+        style={styles.skipLink}
+        onPress={() => navigation.navigate("Home")}
+      >
         <Text>Skip</Text>
       </TouchableOpacity>
-      <Image style={styles.logo} source={require('../assets/icon.png')} />
-      <Text style={styles.description}>Welcome to our amazing app!</Text>
-    
-      <TouchableOpacity   disabled={!request}
-          onPress={() => {
-            promptAsync();
-          }}>
-      <Text style={styles.google}>
-      <Icon name="google" type="font-awesome" />
-        Sign in with Google
-      </Text>
+      <Image style={styles.logo} source={require("../assets/icon.png")} />
+      <Text style={styles.description}>Find it now...</Text>
+
+      <TouchableOpacity
+        disabled={!request}
+        onPress={() => {
+          promptAsync();
+        }}
+      >
+        <View style={styles.google}>
+          <Icon
+            name="google"
+            type="font-awesome"
+            color={theme.colors.textOnPrimary}
+          />
+          <Text style={styles.btntex}> Sign in with Google</Text>
+        </View>
       </TouchableOpacity>
-    
+      <View style={styles.continue}>
+      <Text>or Continue with email</Text>
+      </View>
+
+
+  
+
       <View style={styles.bottomContainer}>
-        <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-          <Text>Email</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+          <Text>Login</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+        <Text style={
+          {
+            fontSize: 23,
+            color: theme.colors.secondary,
+          }
+        } >|</Text>
+        <TouchableOpacity onPress={() => navigation.navigate("Signup")}>
           <Text>Sign Up</Text>
         </TouchableOpacity>
       </View>
