@@ -10,7 +10,7 @@ const ListView = ({ items }) => {
 
   const renderItem = ({ item }) => (
     <View style={styles.listItemContainer}>
-      <Image source={{ uri: item.imageUrls }} style={styles.listItemImage} />
+      <Image source={{ uri: item.image }} style={styles.listItemImage} />
       <View style={styles.listItemContent}>
         <Text style={[styles.listItemTitle, { color: theme.colors.primary }]}>{item.title}</Text>
         <Text style={styles.listItemDescription}>{item.category}</Text>

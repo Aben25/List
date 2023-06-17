@@ -86,15 +86,6 @@ export default function SignupScreen() {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.back} onPress={() => navigation.goBack()}>
-        <Icon
-            name="arrow-left"
-            type="feather"
-            color="black"
-            size={24}
-            style={styles.icon}
-            />
-      </TouchableOpacity>
       {/* Rest of your code */}
       <Text style={styles.title}>Sign up</Text>
     

@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import 'firebase/storage';
+import {  getStorage, ref, uploadString, getDownloadURL,uploadBytes  } from 'firebase/storage';
 
 const firebaseConfig = {
   apiKey: "AIzaSyB6OfVYR51SPB4z-D6v1i6UonKaDnqlsM8",
@@ -16,5 +16,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+const storage = getStorage(app);
+const storageRef = ref(storage, 'some-child');
+
+const bytes = new Uint8Array([0x48, 0x65, 0x6c, 0x6c, 0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21]);
+uploadBytes(storageRef, bytes).then((snapshot) => {
+  console.log('Uploaded an array!');
+});
+
+
 
 export { auth, db, app };

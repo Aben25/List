@@ -59,9 +59,7 @@ export default function ProfileScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                    <Icon name="arrow-left" type="feather" color="black" size={24} />
-                </TouchableOpacity>
+                
 
                 <TouchableOpacity onPress={() => navigation.navigate("CreateAd")}>
                     <Icon name="plus" type="feather" color="black" size={24} />

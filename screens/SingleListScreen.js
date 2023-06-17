@@ -17,7 +17,7 @@ const SingleListScreen = ({ route }) => {
         <ScrollView style={styles.container}>
           <Image
             style={styles.img}
-            source={{ uri: item.imageUrls }}
+            source={{ uri: item.image }}
             containerStyle={styles.item}
             PlaceholderContent={<ActivityIndicator />}
           />

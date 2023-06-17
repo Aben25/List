@@ -55,15 +55,6 @@ export default function ForgotPasswordScreen() {
 
   return (
     <View style={styles.container}>
-     <TouchableOpacity style={styles.back} onPress={() => navigation.goBack()}>
-        <Icon
-            name="arrow-left"
-            type="feather"
-            color="black"
-            size={24}
-            style={styles.icon}
-            />
-      </TouchableOpacity>
 
       <Text style={styles.title}>Reset Password</Text>
       <Input

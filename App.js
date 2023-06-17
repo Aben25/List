@@ -19,6 +19,8 @@ import SearchScreen from "./screens/SearchScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import EditProfileScreen from "./screens/EditProfileScreen";
 import CreateAdScreen from "./screens/CreateAdScreen";
+import { Icon } from "@rneui/base";
+
 
 
 const Stack = createStackNavigator();
@@ -29,6 +31,18 @@ function App() {
   const [checked, setChecked] = useState(false);
 
   //
+  const screenOptions = {
+    headerBackImage: () => (
+      <Icon name="arrow-left" type="feather" color="black" size={24} />
+      ),
+    headerBackTitleVisible: false,
+    headerTitle: false,
+    headerTitleStyle: {
+      fontWeight: 'bold',
+    },
+  
+    
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -44,17 +58,19 @@ function App() {
               <Stack.Screen
                 name="Home"
                 component={HomeScreen}
-                options={{ headerShown: false }}
+                options={screenOptions}
               />
               <Stack.Screen name="Profile" component={ProfileScreen}
-              options={{ headerShown: false }}
+              options={screenOptions}
               />
               <Stack.Screen name="EditProfile" component={EditProfileScreen}
-              options={{ headerShown: false }}
+              options={screenOptions}
               />
               <Stack.Screen name="Settings" component={SettingsScreen} />
               <Stack.Screen name="SingleList" component={SingleListScreen} />
-              <Stack.Screen name="CreateAd" component={CreateAdScreen} />
+              <Stack.Screen name="CreateAd" component={CreateAdScreen} 
+              options={screenOptions}
+              />
               
 
             </>
@@ -65,30 +81,31 @@ function App() {
               <Stack.Screen
                 name="Home"
                 component={HomeScreen}
-                options={{ headerShown: false }}
-              />
+                options={screenOptions}
+                />
               <Stack.Screen
                 name="Login"
                 component={LoginScreen}
-                options={{ headerShown: false }}
-              />
+                options={screenOptions}
+                />
               <Stack.Screen
                 name="Welcome"
                 component={WelcomeScreen}
-                options={{ headerShown: false }}
-              />
+                options={screenOptions}
+                />
               <Stack.Screen
                 name="Signup"
                 component={SignupScreen}
-                options={{ headerShown: false }}
-              />
+                options={screenOptions}
+                />
               <Stack.Screen
                 name="ForgotPassword"
                 component={ForgotPasswordScreen}
-                options={{ headerShown: false }}
-              />
+                options={screenOptions}
+                />
               <Stack.Screen name="Search" component={SearchScreen}
-              options={{ headerShown: false }} />
+              options={screenOptions}
+              />
               
 
             </>

@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { collection, query, onSnapshot, addDoc, updateDoc, deleteDoc } from 'firebase/firestore';
-import { db, app } from '../services/firebase';
+import { db, app , storage} from '../services/firebase';
 import { getStorage, ref, uploadString, getDownloadURL } from 'firebase/storage';
 
 
@@ -24,24 +24,46 @@ export const ListProvider = ({ children }) => {
     };
   }, []);
 
-  const uploadImage = async (uri, userId) => {
-    const response = await fetch(uri);
+  //create a function to upload images to firebase storage using the ad id as the folder name and return the images  url to be saved in the database as an array
+  const uploadImage = async (imageUri, userId) => {
+    const response = await fetch(imageUri);
     const blob = await response.blob();
-    const storage = getStorage(app);
-    const storageRef = ref(storage, `images/${userId}`);
-    const snapshot = await uploadString(storageRef, blob, 'data_url');
-    return await getDownloadURL(snapshot.ref);
+    const storageRef = ref(storage, `images/${userId}/${Date.now()}`);
+    const uploadTask = uploadString(storageRef, blob, 'data_url');
+    return new Promise((resolve, reject) => {
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+          // progress function ...
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
+          );
+          console.log(progress);
+        },
+        (error) => {
+          // Error function ...
+          console.log(error);
+          reject(error);
+        },
+        () => {
+          // complete function ...
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            console.log('File available at', downloadURL);
+            resolve(downloadURL);
+          });
+        },
+      );
+    });
   };
 
-  const addItem = async (item, imageUri) => {
+
+
+
+  const addItem = async (item) => {
     try {
-      let imageUrl = '';
-      if (imageUri) {
-        imageUrl = await uploadImage(imageUri, item.userId);
-      }
+     
       const itemWithCreatorAndImage = {
         ...item,
-        image: imageUrl,
       };
       const itemRef = collection(db, 'ads');
       const docRef = await addDoc(itemRef, itemWithCreatorAndImage);
@@ -74,7 +96,7 @@ export const ListProvider = ({ children }) => {
   };
 
   return (
-    <ListContext.Provider value={{ items, addItem, updateItem, deleteItem }}>
+    <ListContext.Provider value={{ items, addItem, updateItem, deleteItem,uploadImage }}>
       {children}
     </ListContext.Provider>
   );
