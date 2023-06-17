@@ -12,30 +12,7 @@ const Header = ({ toggleView }) => {
 
   return (
     <>
-      <View style={styles.header}>
-        <Text style={[styles.title, { color: theme.colors.primary }]}>
-          Welcome to EthioFind
-        </Text>
-
-        {user ? (
-          <TouchableOpacity style={styles.toggleButton} onPress={toggleView}>
-            <Icon name="moon" size={16} color={theme.colors.primary} />
-          </TouchableOpacity>
-        ) : (
-          <TouchableOpacity
-            style={styles.toggleButton}
-            onPress={navigation.navigate("User")}
-          >
-            <Icon name="person" size={16} color={theme.colors.primary} />
-          </TouchableOpacity>
-        )}
-      </View>
-      <TouchableOpacity
-        style={styles.searchBox}
-        onPress={navigation.navigate("Search")}
-      >
-        <Icon name="search" size={20} color={theme.colors.primary} />
-      </TouchableOpacity>
+     
     </>
   );
 };

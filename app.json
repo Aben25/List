@@ -3,7 +3,7 @@
     "name": "AddisList",
     "slug": "AddisList",
     "scheme": "etthiofind",
-    "version": "1.0.4",
+    "version": "1.0.6",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -18,7 +18,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "EthioList.io",
-      "buildNumber": "1.0.4"
+      "buildNumber": "1.0.6"
     },
     "android": {
       "adaptiveIcon": {

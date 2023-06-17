@@ -7,9 +7,7 @@ import HomeScreen from "./screens/HomeScreen";
 import { Button, createTheme } from "@rneui/themed";
 import { SafeAreaView, StyleSheet } from "react-native";
 import { AdsProvider } from "./context/SearchContext";
-import UserScreen from "./screens/UserScreen";
 import SettingsScreen from "./screens/SettingsScreen";
-import AdDetailsScreen from "./screens/AdDetailsScreen";
 import { ThemeContext, ThemeProvider } from "./context/ThemeContext";
 import { Switch } from "@rneui/themed";
 import WelcomeScreen from "./screens/WelcomeScreen";
@@ -18,6 +16,9 @@ import { ListContext, ListProvider } from "./context/ListContext";
 import SingleListScreen from "./screens/SingleListScreen";
 import ForgotPasswordScreen from "./screens/ForgotPassword";
 import SearchScreen from "./screens/SearchScreen";
+import ProfileScreen from "./screens/ProfileScreen";
+import EditProfileScreen from "./screens/EditProfileScreen";
+import CreateAdScreen from "./screens/CreateAdScreen";
 
 
 const Stack = createStackNavigator();
@@ -45,10 +46,16 @@ function App() {
                 component={HomeScreen}
                 options={{ headerShown: false }}
               />
-              <Stack.Screen name="User" component={UserScreen} />
+              <Stack.Screen name="Profile" component={ProfileScreen}
+              options={{ headerShown: false }}
+              />
+              <Stack.Screen name="EditProfile" component={EditProfileScreen}
+              options={{ headerShown: false }}
+              />
               <Stack.Screen name="Settings" component={SettingsScreen} />
-              <Stack.Screen name="AdDetails" component={AdDetailsScreen} />
               <Stack.Screen name="SingleList" component={SingleListScreen} />
+              <Stack.Screen name="CreateAd" component={CreateAdScreen} />
+              
 
             </>
           ) : (

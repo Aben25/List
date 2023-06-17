@@ -108,7 +108,11 @@ export default function LoginScreen() {
         secureTextEntry={true}
       />
       <Text style={{ color: "red" }}>{error}</Text>
-      <Button title="Login" onPress={handleLogin} 
+      <Button title="Login Admin" onPress={() => signIn("t@gmail.com", "099300")}
+      raised={true}
+      buttonStyle={{backgroundColor: theme.colors.primary}}
+      />
+       <Button title="Login" onPress={handleLogin} 
       raised={true}
       buttonStyle={{backgroundColor: theme.colors.primary}}
       />
